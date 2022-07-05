@@ -23,7 +23,7 @@ import numpy as np
 #variables
 num_classes =3
 batch_size = 5
-epochs = 30
+epochs = 500
 #------------------------------
 
 import os, cv2, keras

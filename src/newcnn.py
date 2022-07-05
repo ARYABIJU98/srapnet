@@ -72,3 +72,6 @@ def predictcnn(fn):
     yhat_classes = mo.predict_classes(dataset, verbose=0)
     print(yhat_classes)
     return yhat_classes[0]
+
+
+# ss=predictcnn("static/dataset/10/accident_pti - Copy (2).jpg")

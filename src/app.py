@@ -1,22 +1,22 @@
 from flask import *
 
-from src.database import *
+from database import *
 import datetime
-from src.newcnn import predictcnn
+# from newcnn import predictcnn
 
 import json
 from web3 import Web3, HTTPProvider
 #
 # # truffle development blockchain address
-# blockchain_address = 'HTTP://127.0.0.1:7545'
+blockchain_address = 'HTTP://127.0.0.1:9545'
 # # Client instance to interact with the blockchain
-# web3 = Web3(HTTPProvider(blockchain_address))
+web3 = Web3(HTTPProvider(blockchain_address))
 # # Set the default account (so we don't need to set the "from" for every transaction call)
-# web3.eth.defaultAccount = web3.eth.accounts[0]
+web3.eth.defaultAccount = web3.eth.accounts[0]
 #
-# compiled_contract_path = r'C:\Users\AthuZ\Desktop\scrap_net\src\node_modules\.bin\build\contracts\vehicleinfo.json'
+compiled_contract_path = r'C:/scrap_net/src/node_modules/.bin/build/contracts/vehicleinfo.json'
 # # Deployed contract address (see `migrate` command output: `contract address`)
-# deployed_contract_address = '0xD923E68D7AD74B96a94fB5686727b39FA233Ee57'
+deployed_contract_address = '0x61e8545C6820292c09Df32C3F78F817d0DE560Cc'
 #
 
 app=Flask(__name__)
@@ -189,7 +189,7 @@ def vcar():
 @login_required
 def addpriceinfo():
     id = session['lid']
-    qry="SELECT `car_details`.*,`scraprequest`.`id`,`scraprequest`.`status` FROM `car_details` JOIN `scraprequest` ON `car_details`.`id`=`scraprequest`.`carid` WHERE `scraprequest`.`lid`=%s and scraprequest.status ='accepted' "
+    qry="SELECT `car_details`.*,`scraprequest`.`id`,`scraprequest`.`status` FROM `car_details` JOIN `scraprequest` ON `car_details`.`id`=`scraprequest`.`carid` WHERE `scraprequest`.`lid`=%s and scraprequest.status !='pending' "
     res=selectall2(qry,id)
 
 
@@ -247,7 +247,7 @@ def scraphome():
     return render_template('scrap/scrap home.html')
 
 @app.route('/scrapregistration')
-@login_required
+
 def scrapregistration():
     return render_template('scrap/scrap registration.html')
 @app.route('/register1',methods=['post'])
@@ -322,7 +322,7 @@ def priceinfo_user1():
     qry="SELECT `car_details`.`car_model`,`car_details`.`seater`,`price_info`.`price`,`scrap`.`fname`,`scrap`.`lname`,`car_details`.`regno` FROM `car_details` JOIN `scraprequest` ON `scraprequest`.`carid`=`car_details`.`id` JOIN `scrap` ON `scrap`.`lid`=`scraprequest`.`lid`  JOIN `price_info` ON `price_info`.`reqid`=`scraprequest`.`id` WHERE  `price_info`.`id`=%s"
     res1=selectone(qry,cid)
     print(res1,cid)
-    from src.newcnn import predictcnn
+    from newcnn import predictcnn
 
     res=predictcnn("static/carimg/"+str(id)+".png")
     msg="50 "
@@ -504,4 +504,4 @@ def usercerti():
     return render_template('user/cinfo.html',val=res)
 
 
-app.run(debug=True)
+app.run(debug=False,port=5001)
