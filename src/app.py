@@ -242,6 +242,48 @@ def cerinfocode():
 
     return'''<script>alert("added..");window.location="/addpriceinfo"</script>'''
 
+@app.route('/userviewpolicy',methods=['post','get'])
+@login_required
+def userviewpolicy():
+    qry="SELECT * FROM `policy`"
+    res=selectall(qry)
+    return render_template('user/userviewpolicy.html',val=res)
+
+
+@app.route('/Policy',methods=['post','get'])
+@login_required
+def Policy():
+    qry="SELECT * FROM `policy`"
+    res=selectall(qry)
+    return render_template('rto/Policy.html',val=res)
+
+
+@app.route('/Policys',methods=['post','get'])
+@login_required
+def Policys():
+    p=request.form['p']
+    qry="INSERT INTO `policy` VALUES(NULL,%s)"
+    val=(p)
+    print(val)
+    iud(qry,val)
+    return'''<script>alert("added..");window.location="/Policy"</script>'''
+
+
+
+
+@app.route('/add',methods=['post'])
+@login_required
+def add():
+
+    add=request.form['textarea']
+    qry = "update `complaint` SET `reply`=%s WHERE `id`=%s"
+    val =(add,session['policy_id'])
+    print(val)
+    iud(qry, val)
+    return '''<script>alert("ADDED..");window.location="/add"</script>'''
+
+
+
 @app.route('/scraphome')
 def scraphome():
     return render_template('scrap/scrap home.html')
@@ -504,4 +546,4 @@ def usercerti():
     return render_template('user/cinfo.html',val=res)
 
 
-app.run(debug=False,port=5001)
+app.run(debug=False,port=5011)

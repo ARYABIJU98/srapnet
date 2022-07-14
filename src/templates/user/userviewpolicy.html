@@ -1,0 +1,24 @@
+{% extends 'userindex.html'%}
+{% block body %}
+<body>
+  <table>
+    <tr>
+      <th>policy</th>
+    </tr>
+
+   {% for i in val %}
+      <tr>
+  
+        <td>{{i[1]}}</td>
+
+<!-- 
+        <td><a href="acceptscrap?id={{i[0]}}">Accept</a> 
+            <a href="rejectscrap?id={{i[0]}}">Reject</a>
+        </td> -->
+      </tr>
+      {%endfor%}
+      </table>
+</form>
+</body>
+<!--</html>-->
+{% endblock %}
